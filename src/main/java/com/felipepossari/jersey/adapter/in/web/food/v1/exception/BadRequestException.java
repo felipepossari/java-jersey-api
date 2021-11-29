@@ -1,6 +1,5 @@
 package com.felipepossari.jersey.adapter.in.web.food.v1.exception;
 
-import com.felipepossari.jersey.adapter.in.web.food.v1.exception.model.ErrorResponse;
 import lombok.Getter;
 
 import java.util.List;
@@ -8,9 +7,9 @@ import java.util.List;
 @Getter
 public class BadRequestException extends RuntimeException {
 
-    private final List<ErrorResponse> errors;
+    private final List<FoodApiErrorReason> errors;
 
-    public BadRequestException(List<ErrorResponse> errors) {
+    public BadRequestException(List<FoodApiErrorReason> errors) {
         this.errors = errors;
     }
 }
