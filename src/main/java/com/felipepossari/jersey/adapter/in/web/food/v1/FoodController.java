@@ -9,6 +9,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -51,6 +52,16 @@ public class FoodController {
     public Response getAll() {
         List<Food> foods = readFoodUseCase.readAll();
         return Response.ok(builder.buildResponse(foods))
+                .build();
+    }
+
+    @GET
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getById(@PathParam("id") String id) {
+        Food food = readFoodUseCase.readById(id);
+        return Response.ok(builder.buildResponse(food))
                 .build();
     }
 }

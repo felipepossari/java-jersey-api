@@ -35,7 +35,7 @@ public class FoodBuilder {
                 .collect(Collectors.toList());
     }
 
-    private FoodResponse buildResponse(Food food) {
+    public FoodResponse buildResponse(Food food) {
         return FoodResponse.builder()
                 .id(food.getId())
                 .name(food.getName())
