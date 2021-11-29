@@ -27,7 +27,7 @@ public class FoodRequestValidator {
             errors.add(FoodApiErrorReason.FOOD_WEIGHT_INVALID);
         }
 
-        if(ObjectUtils.isEmpty(request.getType())){
+        if(ObjectUtils.isEmpty(request.getType()) || StringUtils.isEmpty(request.getType().getId())){
             errors.add(FoodApiErrorReason.FOOD_TYPE_INVALID);
         }
 

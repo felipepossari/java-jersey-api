@@ -52,10 +52,10 @@ public class FoodController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response postFood(FoodRequest foodRequest) {
-        validateRequest(foodRequest);
+    public Response postFood(FoodRequest request) {
+        validateRequest(request);
         log.info("Creating food");
-        Food food = builder.buildFood(foodRequest);
+        Food food = builder.buildFood(request);
         food = createFoodUseCase.create(food);
         log.info("Food created. Id: {}", food.getId());
         return Response.created(builder.buildCreatedUri(food))
@@ -86,6 +86,7 @@ public class FoodController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") String id, FoodRequest request) {
+        validateRequest(request);
         Food food = builder.buildFood(request, id);
         updateFoodUseCase.update(food);
         return Response.noContent().build();
