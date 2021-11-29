@@ -5,5 +5,7 @@ public class AdapterConstans {
     }
 
     public static final String ENDPOINT_FOOD = "/foods";
-    public static final String ENDPOINT_BY_ID_FOOD = "/foods/{id}";
+
+    public static final String PATH_PARAM_ID = "id";
+    public static final String ENDPOINT_PATH_PARAM_ID = "{" + PATH_PARAM_ID + "}";
 }

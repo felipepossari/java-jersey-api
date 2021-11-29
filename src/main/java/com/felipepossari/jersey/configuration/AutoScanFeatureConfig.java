@@ -8,14 +8,13 @@ import org.glassfish.hk2.api.Populator;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ClasspathDescriptorFileFinder;
 import org.glassfish.hk2.utilities.DuplicatePostProcessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class AutoScanFeatureConfig implements Feature {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoScanFeatureConfig.class);
+    private static final Logger log = Logger.getLogger(AutoScanFeatureConfig.class.getName());
 
     private final ServiceLocator serviceLocator;
 
@@ -36,7 +35,7 @@ public class AutoScanFeatureConfig implements Feature {
                     new ClasspathDescriptorFileFinder(this.getClass().getClassLoader()),
                     new DuplicatePostProcessor());
         } catch (IOException e) {
-            log.error("Auto scan feature populate failed", e);
+            log.severe("Auto scan feature populate failed. " + e.getMessage());
         }
 
         return true;

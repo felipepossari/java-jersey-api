@@ -19,15 +19,16 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-@Path("/foods")
+import static com.felipepossari.jersey.adapter.AdapterConstans.*;
+
+@Path(ENDPOINT_FOOD)
 public class FoodController {
 
-    private static final Logger log = LoggerFactory.getLogger(FoodController.class);
+    private static final Logger log = Logger.getLogger(FoodController.class.getName());
     private final FoodBuilder builder;
     private final CreateFoodUseCase createFoodUseCase;
     private final ReadFoodUseCase readFoodUseCase;
@@ -57,7 +58,7 @@ public class FoodController {
         log.info("Creating food");
         Food food = builder.buildFood(request);
         food = createFoodUseCase.create(food);
-        log.info("Food created. Id: {}", food.getId());
+        log.info("Food created. Id: " + food.getId());
         return Response.created(builder.buildCreatedUri(food))
                 .build();
     }
@@ -72,20 +73,20 @@ public class FoodController {
     }
 
     @GET
-    @Path("{id}")
+    @Path(ENDPOINT_PATH_PARAM_ID)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getById(@PathParam("id") String id) {
+    public Response getById(@PathParam(PATH_PARAM_ID) String id) {
         Food food = readFoodUseCase.readById(id);
         return Response.ok(builder.buildResponse(food))
                 .build();
     }
 
     @PUT
-    @Path("{id}")
+    @Path(ENDPOINT_PATH_PARAM_ID)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") String id, FoodRequest request) {
+    public Response update(@PathParam(PATH_PARAM_ID) String id, FoodRequest request) {
         validateRequest(request);
         Food food = builder.buildFood(request, id);
         updateFoodUseCase.update(food);
@@ -93,10 +94,10 @@ public class FoodController {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path(ENDPOINT_PATH_PARAM_ID)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") String id) {
+    public Response delete(@PathParam(PATH_PARAM_ID) String id) {
         deleteFoodUseCase.delete(id);
         return Response.noContent().build();
     }
@@ -104,6 +105,7 @@ public class FoodController {
     private void validateRequest(FoodRequest request) {
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
         if (errors != null && !errors.isEmpty()) {
+            log.warning("Request validation fail");
             throw new BadRequestException(errors);
         }
     }

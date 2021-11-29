@@ -3,6 +3,7 @@ package com.felipepossari.jersey;
 import com.felipepossari.jersey.configuration.AutoScanFeatureConfig;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class Main {
         final ResourceConfig rc = new ResourceConfig();
         rc.packages("com.felipepossari.jersey");
         rc.register(AutoScanFeatureConfig.class);
+        rc.register(LoggingFeature.class);
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
