@@ -4,6 +4,7 @@ import com.felipepossari.jersey.application.domain.Food;
 import org.jvnet.hk2.annotations.Contract;
 
 import java.util.List;
+import java.util.Optional;
 
 @Contract
 public interface FoodRepositoryPort {
@@ -12,7 +13,7 @@ public interface FoodRepositoryPort {
 
     List<Food> readAll();
 
-    Food readyById(String id);
+    Optional<Food> readyById(String id);
 
     Food update(Food foodUpdated);
 

@@ -1,12 +1,12 @@
 package com.felipepossari.jersey.adapter.out.repository.memory;
 
 import com.felipepossari.jersey.application.domain.Food;
-import com.felipepossari.jersey.application.exception.ResourceNotFoundException;
 import com.felipepossari.jersey.application.port.out.FoodRepositoryPort;
 import org.jvnet.hk2.annotations.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,10 +27,10 @@ public class FoodMemoryRepositoryPortImpl implements FoodRepositoryPort {
     }
 
     @Override
-    public Food readyById(String id) {
+    public Optional<Food> readyById(String id) {
         return foods.stream()
                 .filter(food -> food.getId().equals(id))
-                .findFirst().orElseThrow(ResourceNotFoundException::new);
+                .findFirst();
     }
 
     @Override
