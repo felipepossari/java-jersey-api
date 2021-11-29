@@ -1,5 +1,7 @@
 package com.felipepossari.jersey.adapter.in.web.food.v1;
 
+import com.felipepossari.jersey.adapter.in.web.food.v1.exception.BadRequestException;
+import com.felipepossari.jersey.adapter.in.web.food.v1.exception.FoodApiErrorReason;
 import com.felipepossari.jersey.adapter.in.web.food.v1.request.FoodRequest;
 import com.felipepossari.jersey.application.domain.Food;
 import com.felipepossari.jersey.application.port.in.CreateFoodUseCase;
@@ -31,23 +33,27 @@ public class FoodController {
     private final ReadFoodUseCase readFoodUseCase;
     private final UpdateFoodUseCase updateFoodUseCase;
     private final DeleteFoodUseCase deleteFoodUseCase;
+    private final FoodRequestValidator foodRequestValidator;
 
     @Inject
     public FoodController(FoodBuilder builder,
                           CreateFoodUseCase createFoodUseCase,
                           ReadFoodUseCase readFoodUseCase,
                           UpdateFoodUseCase updateFoodUseCase,
-                          DeleteFoodUseCase deleteFoodUseCase) {
+                          DeleteFoodUseCase deleteFoodUseCase,
+                          FoodRequestValidator foodRequestValidator) {
         this.builder = builder;
         this.createFoodUseCase = createFoodUseCase;
         this.readFoodUseCase = readFoodUseCase;
         this.updateFoodUseCase = updateFoodUseCase;
         this.deleteFoodUseCase = deleteFoodUseCase;
+        this.foodRequestValidator = foodRequestValidator;
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response postFood(FoodRequest foodRequest) {
+        validateRequest(foodRequest);
         log.info("Creating food");
         Food food = builder.buildFood(foodRequest);
         food = createFoodUseCase.create(food);
@@ -89,9 +95,16 @@ public class FoodController {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") String id){
+    public Response delete(@PathParam("id") String id) {
         deleteFoodUseCase.delete(id);
         return Response.noContent().build();
+    }
+
+    private void validateRequest(FoodRequest request) {
+        List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
+        if (errors != null && !errors.isEmpty()) {
+            throw new BadRequestException(errors);
+        }
     }
 
 }
