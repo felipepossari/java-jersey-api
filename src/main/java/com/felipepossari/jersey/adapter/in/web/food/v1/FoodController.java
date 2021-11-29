@@ -4,10 +4,12 @@ import com.felipepossari.jersey.adapter.in.web.food.v1.request.FoodRequest;
 import com.felipepossari.jersey.application.domain.Food;
 import com.felipepossari.jersey.application.port.in.CreateFoodUseCase;
 import com.felipepossari.jersey.application.port.in.ReadFoodUseCase;
+import com.felipepossari.jersey.application.port.in.UpdateFoodUseCase;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -25,14 +27,17 @@ public class FoodController {
     private final FoodBuilder builder;
     private final CreateFoodUseCase createFoodUseCase;
     private final ReadFoodUseCase readFoodUseCase;
+    private final UpdateFoodUseCase updateFoodUseCase;
 
     @Inject
     public FoodController(FoodBuilder builder,
                           CreateFoodUseCase createFoodUseCase,
-                          ReadFoodUseCase readFoodUseCase) {
+                          ReadFoodUseCase readFoodUseCase,
+                          UpdateFoodUseCase updateFoodUseCase) {
         this.builder = builder;
         this.createFoodUseCase = createFoodUseCase;
         this.readFoodUseCase = readFoodUseCase;
+        this.updateFoodUseCase = updateFoodUseCase;
     }
 
     @POST
@@ -63,5 +68,15 @@ public class FoodController {
         Food food = readFoodUseCase.readById(id);
         return Response.ok(builder.buildResponse(food))
                 .build();
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") String id, FoodRequest request) {
+        Food food = builder.buildFood(request, id);
+        updateFoodUseCase.update(food);
+        return Response.noContent().build();
     }
 }

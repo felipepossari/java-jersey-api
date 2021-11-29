@@ -44,6 +44,15 @@ public class FoodBuilder {
                 .build();
     }
 
+    public Food buildFood(FoodRequest request, String id) {
+        return Food.builder()
+                .id(id)
+                .type(buildFoodType(request.getType()))
+                .weight(request.getWeight())
+                .name(request.getName())
+                .build();
+    }
+
     private FoodTypeResponse buildFoodTypeResponse(FoodType type) {
         return FoodTypeResponse.builder()
                 .id(type.getId())

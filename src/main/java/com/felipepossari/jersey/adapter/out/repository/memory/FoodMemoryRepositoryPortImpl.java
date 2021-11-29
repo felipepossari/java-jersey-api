@@ -35,9 +35,9 @@ public class FoodMemoryRepositoryPortImpl implements FoodRepositoryPort {
 
     @Override
     public Food update(Food foodUpdated) {
-        Food currentFood = readyById(foodUpdated.getId());
-        currentFood = foodUpdated;
-        return currentFood;
+        delete(foodUpdated);
+        foods.add(foodUpdated);
+        return foodUpdated;
     }
 
     @Override
