@@ -3,10 +3,12 @@ package com.felipepossari.jersey.adapter.in.web.food.v1;
 import com.felipepossari.jersey.adapter.in.web.food.v1.request.FoodRequest;
 import com.felipepossari.jersey.application.domain.Food;
 import com.felipepossari.jersey.application.port.in.CreateFoodUseCase;
+import com.felipepossari.jersey.application.port.in.DeleteFoodUseCase;
 import com.felipepossari.jersey.application.port.in.ReadFoodUseCase;
 import com.felipepossari.jersey.application.port.in.UpdateFoodUseCase;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -28,16 +30,19 @@ public class FoodController {
     private final CreateFoodUseCase createFoodUseCase;
     private final ReadFoodUseCase readFoodUseCase;
     private final UpdateFoodUseCase updateFoodUseCase;
+    private final DeleteFoodUseCase deleteFoodUseCase;
 
     @Inject
     public FoodController(FoodBuilder builder,
                           CreateFoodUseCase createFoodUseCase,
                           ReadFoodUseCase readFoodUseCase,
-                          UpdateFoodUseCase updateFoodUseCase) {
+                          UpdateFoodUseCase updateFoodUseCase,
+                          DeleteFoodUseCase deleteFoodUseCase) {
         this.builder = builder;
         this.createFoodUseCase = createFoodUseCase;
         this.readFoodUseCase = readFoodUseCase;
         this.updateFoodUseCase = updateFoodUseCase;
+        this.deleteFoodUseCase = deleteFoodUseCase;
     }
 
     @POST
@@ -79,4 +84,14 @@ public class FoodController {
         updateFoodUseCase.update(food);
         return Response.noContent().build();
     }
+
+    @DELETE
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(@PathParam("id") String id){
+        deleteFoodUseCase.delete(id);
+        return Response.noContent().build();
+    }
+
 }
