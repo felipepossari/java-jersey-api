@@ -1,9 +1,7 @@
 package com.felipepossari.jersey.adapter.in.web.food.v1;
 
 import com.felipepossari.jersey.adapter.in.web.food.v1.request.FoodRequest;
-import com.felipepossari.jersey.adapter.in.web.food.v1.request.FoodTypeRequest;
 import com.felipepossari.jersey.adapter.in.web.food.v1.response.FoodResponse;
-import com.felipepossari.jersey.adapter.in.web.food.v1.response.FoodTypeResponse;
 import com.felipepossari.jersey.application.domain.Food;
 import com.felipepossari.jersey.application.domain.FoodType;
 import org.jvnet.hk2.annotations.Service;
@@ -21,7 +19,7 @@ public class FoodBuilder {
         return Food.builder()
                 .name(request.getName())
                 .weight(request.getWeight())
-                .type(buildFoodType(request.getType()))
+                .type(FoodType.valueOf(request.getType()))
                 .build();
     }
 
@@ -39,7 +37,7 @@ public class FoodBuilder {
         return FoodResponse.builder()
                 .id(food.getId())
                 .name(food.getName())
-                .type(buildFoodTypeResponse(food.getType()))
+                .type(food.getType().name())
                 .weight(food.getWeight())
                 .build();
     }
@@ -47,23 +45,9 @@ public class FoodBuilder {
     public Food buildFood(FoodRequest request, String id) {
         return Food.builder()
                 .id(id)
-                .type(buildFoodType(request.getType()))
+                .type(FoodType.valueOf(request.getType()))
                 .weight(request.getWeight())
                 .name(request.getName())
-                .build();
-    }
-
-    private FoodTypeResponse buildFoodTypeResponse(FoodType type) {
-        return FoodTypeResponse.builder()
-                .id(type.getId())
-                .type(type.getType())
-                .build();
-    }
-
-    private FoodType buildFoodType(FoodTypeRequest type) {
-        return FoodType.builder()
-                .id(type.getId())
-                .type(type.getType())
                 .build();
     }
 }

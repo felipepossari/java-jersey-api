@@ -13,6 +13,6 @@ public class FoodRequest {
 
     private String name;
     private double weight;
-    private FoodTypeRequest type;
+    private String type;
 
 }

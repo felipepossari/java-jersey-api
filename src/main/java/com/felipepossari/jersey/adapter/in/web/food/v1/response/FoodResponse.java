@@ -11,5 +11,5 @@ public class FoodResponse {
     private String id;
     private String name;
     private double weight;
-    private FoodTypeResponse type;
+    private String type;
 }

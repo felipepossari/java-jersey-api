@@ -1,11 +1,22 @@
 package com.felipepossari.jersey.application.domain;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Builder
-@Data
-public class FoodType {
-    private String id;
-    private String type;
+@Getter
+public enum FoodType {
+
+    VEGETABLES("vegetables"),
+    FRUITS("fruits"),
+    GRAINS("grains"),
+    MEAT("meat"),
+    POULTRY("poultry"),
+    FISH("fish"),
+    SEAFOOD("seafood"),
+    DAIRY_FOOD("dairy food");
+
+    private String description;
+
+    FoodType(String description) {
+        this.description = description;
+    }
 }
