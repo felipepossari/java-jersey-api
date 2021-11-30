@@ -17,6 +17,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -66,8 +67,8 @@ public class FoodController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAll() {
-        List<Food> foods = readFoodUseCase.readAll();
+    public Response getAll(@QueryParam("type") String type) {
+        List<Food> foods = readFoodUseCase.readAll(type);
         return Response.ok(builder.buildResponse(foods))
                 .build();
     }

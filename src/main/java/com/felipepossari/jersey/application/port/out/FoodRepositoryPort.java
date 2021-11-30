@@ -1,6 +1,7 @@
 package com.felipepossari.jersey.application.port.out;
 
 import com.felipepossari.jersey.application.domain.Food;
+import com.felipepossari.jersey.application.domain.FoodType;
 import org.jvnet.hk2.annotations.Contract;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface FoodRepositoryPort {
     Food update(Food foodUpdated);
 
     boolean delete(Food food);
+
+    List<Food> readByType(FoodType type);
 }

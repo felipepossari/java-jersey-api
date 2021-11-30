@@ -1,6 +1,7 @@
 package com.felipepossari.jersey.adapter.out.repository.memory;
 
 import com.felipepossari.jersey.application.domain.Food;
+import com.felipepossari.jersey.application.domain.FoodType;
 import com.felipepossari.jersey.application.port.out.FoodRepositoryPort;
 import org.jvnet.hk2.annotations.Service;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class FoodMemoryRepositoryPortImpl implements FoodRepositoryPort {
@@ -43,5 +45,11 @@ public class FoodMemoryRepositoryPortImpl implements FoodRepositoryPort {
     @Override
     public boolean delete(Food food) {
         return foods.removeIf(foodToDelete -> foodToDelete.getId().equals(food.getId()));
+    }
+
+    @Override
+    public List<Food> readByType(FoodType type) {
+        return foods.stream().filter(food -> food.getType().name().equals(type.name()))
+                .collect(Collectors.toList());
     }
 }
