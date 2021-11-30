@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.felipepossari.jersey.base.DefaultConstants.FOOD_ID;
+import static com.felipepossari.jersey.base.DefaultConstants.INVALID_FOOD_TYPE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -36,7 +37,7 @@ class ReadFoodUseCaseServiceTest {
     ReadFoodUseCaseService service;
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "FROZEN FOOD"})
+    @ValueSource(strings = {"", INVALID_FOOD_TYPE})
     void readAllShouldReadAllFoodsIfTypeIsInvalid(String type) {
         List<Food> foods = Collections.singletonList(FoodTestBuilder.aFood().build());
 

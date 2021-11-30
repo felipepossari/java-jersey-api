@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static com.felipepossari.jersey.base.DefaultConstants.INVALID_FOOD_NAME;
+import static com.felipepossari.jersey.base.DefaultConstants.INVALID_FOOD_TYPE;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +43,7 @@ class FoodRequestValidatorTest {
     @Test
     void validateShouldReturnNameInvalidErrorIfNameHasMoreThan50Characters() {
         FoodRequest request = FoodRequestTestBuilder.aFoodRequest()
-                .name("Orange Orange Orange Orange Orange Orange Orange Or")
+                .name(INVALID_FOOD_NAME)
                 .build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
@@ -82,7 +84,7 @@ class FoodRequestValidatorTest {
 
     @Test
     void validateShouldReturnFoodTypeInvalidErrorIfFoodTypeIsInvalid() {
-        FoodRequest request = FoodRequestTestBuilder.aFoodRequest().type("FROZEN FOOD").build();
+        FoodRequest request = FoodRequestTestBuilder.aFoodRequest().type(INVALID_FOOD_TYPE).build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
 
