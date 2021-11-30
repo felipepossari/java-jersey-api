@@ -47,19 +47,128 @@ The message below informs the API is ready to be used:
 
     INFO: Jersey app started with endpoints available at http://localhost:8080/
 
-After see this message you can execute the postman collections or follow the documentation to execute the APIs.
+## API Documentation
+
+### Entities
+* Food Request:
+```
+{
+	"name": "Orange",
+	"weight": 1,
+	"type": "FRUITS"
+}
+```
+* Food Response:
+```
+{
+	"id": "1274ae3a-2c7a-494a-bd62-1894a14d3aab"
+	"name": "Orange",
+	"weight": 1,
+	"type": "FRUITS"
+}
+```
+* Error Response:
+```
+[
+	{
+		"code": "R000",
+		"message": "Error reason"
+	}
+]
+```
+
+### Create Food
+* **URL**: /food
+* **Method**: POST
+* **Body**: Food Request
+* **Success Response**:
+    * **Code**: 201 Created
+    * **Header**: Location => /food/{{id}}
+* **Error Responses**:
+    * **Code**: 400 Bad Request or 409 Conflict
+    * **Content**: Error Response
+* **Sample Call**:
+```
+curl --location --request POST 'http://localhost:8080/foods' --header 'Content-Type: application/json' --data-raw '{"name": "Orange","weight": 1,"type": "FRUITS"}'
+```
+
+### Get All Food
+* **URL**: /food
+* **Method**: GET
+* **Success Response**:
+    * **Code**: 200 OK
+    * **Content**: List of Food Response
+* **Sample Call**:
+```
+curl --location --request GET 'http://localhost:8080/foods'
+```
+
+### Get Food By Food Type
+* **URL**: /food/{{type}}
+* **Method**: GET
+* **URL Params**: Type => VEGETABLES, FRUITS, GRAINS, MEAT, POULTRY, FISH, SEAFOOD, DAIRY_FOOD
+* **Success Response**:
+    * **Code**: 200 OK
+    * **Content**: List of Food Response
+* **Sample Call**:
+```
+curl --location --request GET 'http://localhost:8080/foods'
+```
+
+
+### Update Food
+* **URL**: /food/{{id}}
+* **Method**: PUT
+* **URL Params**: Food Id
+* **Body**: Food Request
+* **Success Response**:
+    *  **Code**: 204 No Content
+* **Error Responses**:
+    * **Code**: 400 Bad Request or 409 Conflict
+    * **Content**: Error Response
+* **Sample Call**:
+```
+curl --location --request PUT 'http://localhost:8080/foods/fe8b1932-ec79-4768-8a41-4ad1a9e4144c' --header 'Content-Type: application/json' --data-raw '{"name": "Apple","weight": 2,"type": "FRUITS"}'
+```
+
+
+### Delete Food
+* **URL**: /food/{{id}}
+* **Method**: DELETE
+* **URL Params**: Food Id
+* **Body**: Food Request
+* **Success Response**:
+    *  **Code**: 204 No Content
+* **Error Responses**:
+    * **Code**: 400 Bad Request or 409 Conflict
+    * **Content**: Error Response
+* **Sample Call**:
+```
+curl --location --request DELETE 'http://localhost:8080/foods/fe8b1932-ec79-4768-8a41-4ad1a9e4144c'
+```
+
+### Error Codes
+|Error Code| Layer | Message  |
+|--|--|--|
+| R001 | API | Food name must not be null or empty |
+| R002 | API | Food name must not have more than 50 characters |
+| R003 |API | Food weight invalid |
+| R004 |API | Food type invalid. Values: VEGETABLES, FRUITS, GRAINS, MEAT, POULTRY, FISH, SEAFOOD, DAIRY_FOOD |
+| R999 |API | Unknown error |
+| C001 | Application | Resource not found |
+| C002 | Application | Resource already registered |
 
 ## Project structure
 
     .
     ├── ...
-    ├── postman                    					# Postman collection    
-    ├── src                    						# Project Source Code
-    │   ├── main/java/com/felipepossari/jersey		# Java classes
-    │		├── adapter								# Layer responsible to exchange data with external systems
-    │ 	    ├── application							# Core layer with domain classes and use cases
-    │ 	    ├── configuration						# Layer responsible to hold configuration classes
-    │   ├── test/java/com/felipepossari/jersey		# Unit and integration test classes
+    ├── postman                                     # Postman collection    
+    ├── src                    		        # Project Source Code
+    │   ├── main/java/com/felipepossari/jersey      # Java classes
+    │		├── adapter			# Layer responsible to exchange data with external systems
+    │ 	    ├── application			# Core layer with domain classes and use cases
+    │ 	    ├── configuration			# Layer responsible to hold configuration classes
+    │   ├── test/java/com/felipepossari/jersey	# Unit and integration test classes
     └── ...
 
 Thinking about Hexagonal Architecture the project was created with the idea that every data input and output should be transparent from the application layer, the core. Digging into Java classes folders we have:
@@ -67,8 +176,8 @@ Thinking about Hexagonal Architecture the project was created with the idea that
     .
     ├── ...
     ├── adapter
-    │   ├── in/web				# Contains the API Endpoint classes
-    │   ├── out/repository		# Contains the repository classes
+    │   ├── in/web		# Contains the API Endpoint classes
+    │   ├── out/repository	# Contains the repository classes
     └── ...
 The adapter/in folder will contain every class, integration, component which allow the data input to the system. In this case the classes with the Jersey annotations that providers a REST endpoint to the system are located in the folder adapter/in/web.
 
@@ -80,8 +189,8 @@ The adapter/out folder will contain every class, integration, component that all
     │   ├── domain			# Domain classes with data and behavior
     │   ├── exception		# Exceptions used in the business logic
     │   ├── port			# Interfaces that provides data input and output from application layer
-    │		   ├── in		# Interfaces to perform data input and map use cases
-    │		   ├── out		# Interfaces to perform data output
+    │		   ├── in	# Interfaces to perform data input and map use cases
+    │		   ├── out	# Interfaces to perform data output
     │   ├── service			# Use cases with business logic
     └── ...
 
