@@ -1,4 +1,4 @@
-package com.felipepossari.jersey.in.web.food.v1.controller;
+package com.felipepossari.jersey.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
