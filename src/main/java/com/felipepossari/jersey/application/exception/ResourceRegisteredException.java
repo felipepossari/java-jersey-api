@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class ResourceNotFoundException extends RuntimeException {
+public class ResourceRegisteredException extends RuntimeException{
 
     private final ApplicationErrorReason applicationErrorReason;
 }

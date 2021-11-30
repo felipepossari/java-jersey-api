@@ -52,4 +52,10 @@ public class FoodMemoryRepositoryPortImpl implements FoodRepositoryPort {
         return foods.stream().filter(food -> food.getType().name().equals(type.name()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Food> readByName(String name) {
+        return foods.stream().filter(food -> food.getName().equalsIgnoreCase(name.trim()))
+                .findFirst();
+    }
 }

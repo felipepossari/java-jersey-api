@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum ApplicationErrorReason {
 
-    RESOURCE_NOT_FOUND("C001", "Resource not found");
+    RESOURCE_NOT_FOUND("C001", "Resource not found"),
+    RESOURCE_REGISTERED("C002", "Resource already registered");
 
     private final String code;
     private final String message;

@@ -21,4 +21,6 @@ public interface FoodRepositoryPort {
     boolean delete(Food food);
 
     List<Food> readByType(FoodType type);
+
+    Optional<Food> readByName(String name);
 }

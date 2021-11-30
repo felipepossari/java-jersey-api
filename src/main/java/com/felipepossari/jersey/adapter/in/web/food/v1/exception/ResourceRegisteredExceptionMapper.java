@@ -2,7 +2,7 @@ package com.felipepossari.jersey.adapter.in.web.food.v1.exception;
 
 import com.felipepossari.jersey.adapter.in.web.food.v1.exception.model.ErrorResponse;
 import com.felipepossari.jersey.application.exception.ApplicationErrorReason;
-import com.felipepossari.jersey.application.exception.ResourceNotFoundException;
+import com.felipepossari.jersey.application.exception.ResourceRegisteredException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -12,10 +12,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Provider
-public class ResourceNotFoundExceptionMapper implements ExceptionMapper<ResourceNotFoundException> {
+public class ResourceRegisteredExceptionMapper implements ExceptionMapper<ResourceRegisteredException> {
     @Override
-    public Response toResponse(ResourceNotFoundException e) {
-        return Response.status(Response.Status.NOT_FOUND)
+    public Response toResponse(ResourceRegisteredException e) {
+        return Response.status(Response.Status.CONFLICT)
                 .entity(buildResponseErrors(e.getApplicationErrorReason()))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
