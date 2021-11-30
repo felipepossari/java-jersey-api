@@ -67,7 +67,8 @@ public class FoodController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAll(@QueryParam("type") String type) {
+    public Response getAll(@QueryParam(QUERY_PARAM_FOOD_TYPE) String type) {
+        log.info("Getting foods. Filter: " + type);
         List<Food> foods = readFoodUseCase.readAll(type);
         return Response.ok(builder.buildResponse(foods))
                 .build();
@@ -78,6 +79,7 @@ public class FoodController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById(@PathParam(PATH_PARAM_ID) String id) {
+        log.info("Getting food by id. Id: " + id);
         Food food = readFoodUseCase.readById(id);
         return Response.ok(builder.buildResponse(food))
                 .build();
@@ -88,6 +90,7 @@ public class FoodController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response update(@PathParam(PATH_PARAM_ID) String id, FoodRequest request) {
+        log.info("Updating food. Id: " + id);
         validateRequest(request);
         Food food = builder.buildFood(request, id);
         updateFoodUseCase.update(food);
@@ -99,6 +102,7 @@ public class FoodController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam(PATH_PARAM_ID) String id) {
+        log.info("Deleting food. Id: " + id);
         deleteFoodUseCase.delete(id);
         return Response.noContent().build();
     }
