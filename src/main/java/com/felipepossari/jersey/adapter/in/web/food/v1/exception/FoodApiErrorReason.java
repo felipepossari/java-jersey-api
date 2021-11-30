@@ -13,7 +13,8 @@ public enum FoodApiErrorReason {
     FOOD_NAME_INVALID_LENGTH("R002", "Food name must not have more than 50 characters"),
     FOOD_WEIGHT_INVALID("R003", "Food weight invalid"),
     FOOD_TYPE_INVALID("R003", "Food type invalid. Values: "
-            + Arrays.stream(FoodType.values()).map(Enum::name).collect(Collectors.joining(", ")));
+            + Arrays.stream(FoodType.values()).map(Enum::name).collect(Collectors.joining(", "))),
+    UNKNOWN_REASON("R999", "Unknown error");
 
     private final String code;
     private final String message;
