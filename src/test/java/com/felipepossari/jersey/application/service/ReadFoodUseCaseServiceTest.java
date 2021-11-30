@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -37,7 +38,8 @@ class ReadFoodUseCaseServiceTest {
     ReadFoodUseCaseService service;
 
     @ParameterizedTest
-    @ValueSource(strings = {"", INVALID_FOOD_TYPE})
+    @NullAndEmptySource
+    @ValueSource(strings = {INVALID_FOOD_TYPE})
     void readAllShouldReadAllFoodsIfTypeIsInvalid(String type) {
         List<Food> foods = Collections.singletonList(FoodTestBuilder.aFood().build());
 
