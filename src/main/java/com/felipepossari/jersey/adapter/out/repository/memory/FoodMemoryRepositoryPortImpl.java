@@ -58,4 +58,11 @@ public class FoodMemoryRepositoryPortImpl implements FoodRepositoryPort {
         return foods.stream().filter(food -> food.getName().equalsIgnoreCase(name.trim()))
                 .findFirst();
     }
+
+    @Override
+    public Optional<Food> readByNameAndIdNot(String name, String id) {
+        return foods.stream()
+                .filter(food -> food.getName().equalsIgnoreCase(name.trim()) && !food.getId().equals(id))
+                .findFirst();
+    }
 }

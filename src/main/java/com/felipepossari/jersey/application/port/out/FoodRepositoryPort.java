@@ -23,4 +23,6 @@ public interface FoodRepositoryPort {
     List<Food> readByType(FoodType type);
 
     Optional<Food> readByName(String name);
+
+    Optional<Food> readByNameAndIdNot(String name, String id);
 }
