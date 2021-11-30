@@ -18,6 +18,12 @@ public class FoodTestBuilder {
         return new FoodTestBuilder();
     }
 
+    public static FoodTestBuilder aFoodUpdated() {
+        return new FoodTestBuilder()
+                .name("Apple")
+                .weight(0.1);
+    }
+
     public FoodTestBuilder id(String id) {
         this.id = id;
         return this;
