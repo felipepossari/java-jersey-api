@@ -11,14 +11,25 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class FoodRequestValidatorTest {
 
     @InjectMocks
     FoodRequestValidator foodRequestValidator;
+
+    @Test
+    void validateShouldReturnNotErrorsIfRequestIsValid(){
+        FoodRequest request = FoodRequest.builder()
+                .name("Ham")
+                .type(FoodType.MEAT.name())
+                .weight(12.0)
+                .build();
+
+        List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
+        assertTrue(errors.isEmpty());
+    }
 
     @Test
     void validateShouldReturnNameEmptyErrorIfNameIsEmpty() {
