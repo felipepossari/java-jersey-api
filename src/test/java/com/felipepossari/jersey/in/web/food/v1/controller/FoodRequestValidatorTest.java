@@ -4,6 +4,7 @@ import com.felipepossari.jersey.adapter.in.web.food.v1.FoodRequestValidator;
 import com.felipepossari.jersey.adapter.in.web.food.v1.exception.FoodApiErrorReason;
 import com.felipepossari.jersey.adapter.in.web.food.v1.request.FoodRequest;
 import com.felipepossari.jersey.application.domain.FoodType;
+import com.felipepossari.jersey.base.request.FoodRequestTestBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,11 +22,7 @@ class FoodRequestValidatorTest {
 
     @Test
     void validateShouldReturnNotErrorsIfRequestIsValid(){
-        FoodRequest request = FoodRequest.builder()
-                .name("Ham")
-                .type(FoodType.MEAT.name())
-                .weight(12.0)
-                .build();
+        FoodRequest request = FoodRequestTestBuilder.aFoodRequest().build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
         assertTrue(errors.isEmpty());
@@ -33,10 +30,7 @@ class FoodRequestValidatorTest {
 
     @Test
     void validateShouldReturnNameEmptyErrorIfNameIsEmpty() {
-        FoodRequest request = FoodRequest.builder()
-                .type(FoodType.MEAT.name())
-                .weight(1.0)
-                .build();
+        FoodRequest request = FoodRequestTestBuilder.aFoodRequest().name("").build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
 
@@ -46,10 +40,8 @@ class FoodRequestValidatorTest {
 
     @Test
     void validateShouldReturnNameInvalidErrorIfNameHasMoreThan50Characters() {
-        FoodRequest request = FoodRequest.builder()
+        FoodRequest request = FoodRequestTestBuilder.aFoodRequest()
                 .name("Orange Orange Orange Orange Orange Orange Orange Or")
-                .type(FoodType.MEAT.name())
-                .weight(1.0)
                 .build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
@@ -60,11 +52,7 @@ class FoodRequestValidatorTest {
 
     @Test
     void validateShouldReturnWeightInvalidErrorIfWeightIsZero() {
-        FoodRequest request = FoodRequest.builder()
-                .name("Orange")
-                .type(FoodType.MEAT.name())
-                .weight(0)
-                .build();
+        FoodRequest request = FoodRequestTestBuilder.aFoodRequest().weight(0).build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
 
@@ -74,11 +62,7 @@ class FoodRequestValidatorTest {
 
     @Test
     void validateShouldReturnWeightInvalidErrorIfWeightIsNegative() {
-        FoodRequest request = FoodRequest.builder()
-                .name("Orange")
-                .type(FoodType.MEAT.name())
-                .weight(-1.0)
-                .build();
+        FoodRequest request = FoodRequestTestBuilder.aFoodRequest().weight(-1.0).build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
 
@@ -88,10 +72,7 @@ class FoodRequestValidatorTest {
 
     @Test
     void validateShouldReturnFoodTypeInvalidErrorIfFoodTypeIsEmpty() {
-        FoodRequest request = FoodRequest.builder()
-                .name("Orange")
-                .weight(1.0)
-                .build();
+        FoodRequest request = FoodRequestTestBuilder.aFoodRequest().type("").build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
 
@@ -101,11 +82,7 @@ class FoodRequestValidatorTest {
 
     @Test
     void validateShouldReturnFoodTypeInvalidErrorIfFoodTypeIsInvalid() {
-        FoodRequest request = FoodRequest.builder()
-                .name("Orange")
-                .weight(1.0)
-                .type("FROZEN FOOD")
-                .build();
+        FoodRequest request = FoodRequestTestBuilder.aFoodRequest().type("FROZEN FOOD").build();
 
         List<FoodApiErrorReason> errors = foodRequestValidator.validate(request);
 
