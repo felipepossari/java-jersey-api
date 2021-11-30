@@ -14,7 +14,7 @@ public class FoodTestBuilder {
     private FoodTestBuilder() {
     }
 
-    public static FoodTestBuilder aFoodRequest() {
+    public static FoodTestBuilder aFood() {
         return new FoodTestBuilder();
     }
 
