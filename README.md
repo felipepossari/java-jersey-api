@@ -13,6 +13,18 @@ RESTful API created using Jersey Framework and Java 8 that allows create, update
 - Unit test;
 - Integration test;
 
+#### Limitations
+
+* The project does not use any kind of data storage. The repository layer is faked using a simple list of Food;
+* The Get Food API does not use pagination;
+
+### Possible improvements
+
+* Add a data storage like MySql using docker;
+* Add pagination in the Get Food API;
+* Add dynamic field selection in the Get Food API;
+* Add [test-containers](https://github.com/testcontainers/testcontainers-java) to improve integration test;
+
 ### Techs used
 - Java 8;
 - Jersey Framework 3.0.2;
